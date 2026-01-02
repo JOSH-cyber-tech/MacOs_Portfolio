@@ -3,6 +3,7 @@ import useWindowStore from "#store/window.js";
 import {useGSAP} from "@gsap/react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
+
 const WindowWrapper = (Component, windowKey) => {
   const Wrapped = (props) => {
     const { focusWindow, windows } = useWindowStore();
@@ -15,16 +16,22 @@ const WindowWrapper = (Component, windowKey) => {
 
        el.style.display="block";
 
-       gsap.fromTo(el, {scale:0.8 , optacity :0 ,y:40},{scale:1,opacity:1,y:0,duration:0.4,ease:"power3.out"},
-
+       gsap.fromTo(
+         el, 
+         {scale:0.8, opacity:0, y:40}, // Fixed: "opacity" not "optacity"
+         {scale:1, opacity:1, y:0, duration:0.4, ease:"power3.out"}
        );
     },[isOpen]);
-  useGSAP(()=>{
+
+    useGSAP(()=>{
       const el=ref.current;
       if(!el) return;
-     const [instance]= Draggable.create(el,{onPress:()=>focusWindow(windowKey)});
-     return ()=>instance.kill;
-  },[])
+      const [instance] = Draggable.create(el, {
+        onPress: () => focusWindow(windowKey)
+      });
+      return () => instance.kill(); // Fixed: added () to actually call kill
+    },[]);
+
     useLayoutEffect(()=>{
        const el=ref.current;
        if(!el) return;
