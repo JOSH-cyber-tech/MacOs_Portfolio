@@ -1,4 +1,7 @@
 import Terminal from "#windows/Terminal.jsx";
 import Resume from "#windows/Resume.jsx";
 import Finder from "#windows/Finder.jsx";
-export {Terminal , Resume , Finder};
+import Text from "#windows/Text.jsx";
+import Image from "#windows/Image.jsx";
+import Contacts from "#windows/Contacts.jsx";
+export {Terminal , Resume , Finder,Text,Image,Contacts};
